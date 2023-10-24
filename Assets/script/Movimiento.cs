@@ -9,6 +9,10 @@ public class Movimiento : MonoBehaviour
     private bool enSuelo;
     private Rigidbody2D rb;
 
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.1f;
+    public LayerMask whatIsGround;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -17,7 +21,7 @@ public class Movimiento : MonoBehaviour
     void Update()
     {
         // Verificar si el personaje está en el suelo
-        enSuelo = Physics2D.OverlapCircle(transform.position, 0.1f, LayerMask.GetMask("Suelo"));
+        enSuelo = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         // Movimiento horizontal
         float movimientoHorizontal = Input.GetAxis("Horizontal");
