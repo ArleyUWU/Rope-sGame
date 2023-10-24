@@ -5,9 +5,9 @@ using UnityEngine;
 public class Movimiento2D : MonoBehaviour
 {
     public float velocidad = 7f;
-    public float fuerzaDeSalto = 10f; // Aumenta la fuerza del salto para hacerlo m·s realista
-    public float gravedad = 3f; // Ajusta la gravedad para un salto m·s realista
-    public float velocidadMaxAscenso = 20f; // Establece una velocidad m·xima de ascenso
+    public float fuerzaDeSalto = 10f; // Aumenta la fuerza del salto para hacerlo m√°s realista
+    public float gravedad = 3f; // Ajusta la gravedad para un salto m√°s realista
+    public float velocidadMaxAscenso = 20f; // Establece una velocidad m√°xima de ascenso
     private Rigidbody2D rb;
     private bool enSuelo;
 
