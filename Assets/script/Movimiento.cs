@@ -2,35 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movimiento : MonoBehaviour
+public class Movimiento2D : MonoBehaviour
 {
     public float velocidad = 5f;
-    public float fuerzaDeSalto = 10f;
-    private bool enSuelo;
+    public float fuerzaDeSalto = 10f; // Aumenta la fuerza del salto para hacerlo más realista
+    public float gravedad = 20f; // Ajusta la gravedad para un salto más realista
+    public float velocidadMaxAscenso = 5f; // Establece una velocidad máxima de ascenso
     private Rigidbody2D rb;
-
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.1f;
-    public LayerMask whatIsGround;
+    private bool enSuelo;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = gravedad; // Aplica la gravedad configurada
     }
 
     void Update()
     {
-        // Verificar si el personaje está en el suelo
-        enSuelo = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-
         // Movimiento horizontal
         float movimientoHorizontal = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(movimientoHorizontal * velocidad, rb.velocity.y);
+
+        // Limita la velocidad de ascenso
+        if (rb.velocity.y > velocidadMaxAscenso)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, velocidadMaxAscenso);
+        }
 
         // Salto
         if (enSuelo && Input.GetButtonDown("Jump"))
         {
             rb.AddForce(new Vector2(0, fuerzaDeSalto), ForceMode2D.Impulse);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Suelo"))
+        {
+            enSuelo = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Suelo"))
+        {
+            enSuelo = false;
         }
     }
 }
